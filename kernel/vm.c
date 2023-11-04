@@ -449,3 +449,35 @@ copyinstr(pagetable_t pagetable, char *dst, uint64 srcva, uint64 max)
     return -1;
   }
 }
+void vypis(pagetable_t pt, int counter)
+{
+   for(int i = 0; i < 512; i++){
+    pte_t pte = pt[i];
+    if((pte & PTE_V) && (pte & (PTE_R|PTE_W|PTE_X)) == 0){
+      // this PTE points to a lower-level page table.
+      uint64 child = PTE2PA(pte);
+      for(int j=0; j<=counter; j++)
+      {
+        printf(" ..");
+      }
+      printf("%d: ",i);
+      printf("pte %p pa %p\n" ,pt[i], PTE2PA(pte));
+      vypis((pagetable_t)child,counter+1);
+    } else if(pte & PTE_V){
+     for(int j=0; j<=counter; j++)
+      {
+        printf(" ..");
+      }
+      printf("%d: ",i);
+      printf("pte %p pa %p\n" ,pt[i], PTE2PA(pte));
+
+    }
+  }
+
+}
+void vmprint(pagetable_t pt)
+{
+  int counter=0;
+  printf("page table %p\n", pt);
+  vypis(pt,counter);
+}
