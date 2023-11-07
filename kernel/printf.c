@@ -136,9 +136,11 @@ printfinit(void)
 
 void backtrace()
 {
- uint64 fp_address = r_fp(); 
-  while(fp_address != PGROUNDDOWN(fp_address)) {
-    printf("%p\n", *(uint64*)(fp_address-8));
-    fp_address = *(uint64*)(fp_address - 16);
-  }
+  uint64 adresa= r_fp();
+  while(adresa!=PGROUNDDOWN(adresa))
+      {
+       printf("%p\n",*(uint64*)(adresa-8));
+       adresa=*(uint64*)(adresa-16);
+      } 
+
 }
