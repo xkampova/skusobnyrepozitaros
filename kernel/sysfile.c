@@ -503,3 +503,9 @@ sys_pipe(void)
   }
   return 0;
 }
+
+int sys_mmap(void){
+return 0;}
+
+int sys_unmap(void){
+return 0;}
